@@ -1,0 +1,50 @@
+> data1 <- read.csv(file.choose(), header=T)
+
+> attach(data1)
+
+> CreateTableOne(data=data1)
+                                    
+
+> myVars <- c("price", "vehicle", "ingred", "nacda", "nacdabin", "trutest", "trutestbin",  "revnum", "rating", "dermrec", "peduse", "fragfre", "noncom",  "parafre", "nongre", "orgnat", "clinprov", "hypoal", "phthfre",  "nefa")
+
+> catVars <- c("vehicle", "nacdabin", "trutestbin", "dermrec", "peduse", "fragfre", "noncom", "parafre", "nongre", "orgnat", "clinprov", "hypoal", "phthfre", "nefa")
+> tab2 <- CreateTableOne(vars=myVars, data=data1, factorVars=catVars)
+> tab2
+                      
+> summary(tab2)
+
+                                                          
+> outcomes<-c("price", "rating", "revnum")
+> print(tab2, nonnormal=outcomes)
+ 
+> tab3<-CreateTableOne(vars=outcomes, data=data1, factorVars=catVars)
+> tab3
+                    
+                   
+> tab4<-CreateTableOne(vars=outcomes, strata="vehicle", data=data1, factorVars=catVars)
+> tab4
+                    
+> tab5<-CreateTableOne(vars="price", strata="vehicle", data=data1, factorVars=catVars)
+> tab5
+                  
+> print(tab5, nonnormal="price")
+
+> print(tab5, nonnormal="price", testNonNormal=kruskal.test, quote=FALSE)
+                      
+> kruskal.test(price ~ vehicle, data=data1)
+
+
+> boxplot(price~vehicle, data=data1)
+> boxplot(price~vehicle, data=data1, main="Price by Vehicle", xlab="Vehicle", ylab="Price")
+
+
+
+> install.packages("PMCMR")
+
+> library(PMCMR)
+> require(PMCMR)
+> data(data1)
+
+> posthoc.kruskal.nemenyi.test(x=price, g=vehicle, dist="Tukey")
+
+> posthoc.kruskal.nemenyi.test(price~vehicle, data=data1, dist="Tukey")
